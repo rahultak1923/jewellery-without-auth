@@ -7,6 +7,8 @@ import Allproduct from './pages/Allproduct';
 import Single from './pages/Single';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Addjewellery from './dashboard/pages/Addjewellery';
+import Home from './dashboard/pages/Home';
 
 function App() {
   return (
@@ -20,6 +22,10 @@ function App() {
           <Route path='/single' element={<Single/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='/signup' element={<Signup/>}/>
+          
+          <Route path='/dashboard' element={<Home/>}/>
+          <Route path='/addedjewellery' element={<Addjewellery/>}/>
+
         </Routes>
       </BrowserRouter>
     </div>

@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const userRoute = require('./routes/user')
+const jewelleryRoute = require('./routes/jewellery')
 const cors = require("cors");
 
 const app=express();
@@ -19,6 +20,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/jewellery-without-auth')
 app.use(express.json());
 app.use(express.urlencoded({extended:false}))
 app.use("/user",userRoute)
+app.use("/jewellery",jewelleryRoute)
 app.use(cors())
 
 app.listen(PORT,()=> console.log(`Server started at PORT:${PORT}`))
