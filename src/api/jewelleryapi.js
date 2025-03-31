@@ -17,3 +17,10 @@ export const CreateJewellery = async(formData)=>
     })
     return await response.json()
 }
+
+export const DeleteJewellery = async(jewelleryId)=>{
+    const response = await fetch(`http://localhost:8000/jewellery/delete/${jewelleryId}`,{
+        method:"DELETE",
+    });
+    return await response.json()
+}

@@ -29,4 +29,15 @@ router.post('/addjewellery', async (req,res)=>{
 
 })
 
+router.delete("/delete/:id",async(req,res)=>{
+    try{
+        const jewelleryid = req.params.id;
+        const deletedjewellery = await Jewellery.findByIdAndDelete(jewelleryid);
+
+        return res.json({message: "jewellery delete",jewellery:deletedjewellery});
+    }catch (error){
+        return res.status(500).json({error:"failed to delete jewellery"})
+    }
+})
+
 module.exports = router;
