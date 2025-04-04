@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const userRoute = require('./routes/user')
 const jewelleryRoute = require('./routes/jewellery')
+const herosection = require('./routes/hero')
 const cors = require("cors");
 
 const app=express();
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:false}))
 app.use("/user",userRoute)
 app.use("/jewellery",jewelleryRoute)
+app.use("/hero",herosection)
 app.use(cors())
 
 app.listen(PORT,()=> console.log(`Server started at PORT:${PORT}`))

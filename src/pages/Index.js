@@ -8,7 +8,7 @@ const Index = () => {
   {/* this is a body section */}
   <section className="slider_section position-relative">
     <div className="slider_bg_box">
-      <img src="assets/images/slider-bg.jpg" alt=""/>
+      <img src="assets/images/hero.jpg" alt=""/>
     </div>
     <div className="slider_bg"></div>
     <div className="container">

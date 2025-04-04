@@ -40,4 +40,31 @@ router.delete("/delete/:id",async(req,res)=>{
     }
 })
 
+router.put("/update/:id", async (req, res) => {
+    try {
+        const jewelleryid = req.params.id;
+        const { jewelleryname, description, price, quantity } = req.body;
+
+        if (!jewelleryid) {
+            return res.status(400).json({ error: "Jewellery ID is required" });
+        }
+
+        const updateJewellery = await Jewellery.findByIdAndUpdate(
+            jewelleryid,
+            { jewelleryname, description, price, quantity },
+            { new: true }
+        );
+
+        if (!updateJewellery) {
+            return res.status(404).json({ error: "Jewellery not found" });
+        }
+
+        return res.json({ message: "Jewellery updated", jewellery: updateJewellery });
+    } catch (error) {
+        console.error("Error updating jewellery:", error);
+        return res.status(500).json({ error: "Failed to update jewellery" });
+    }
+});
+
+
 module.exports = router;
