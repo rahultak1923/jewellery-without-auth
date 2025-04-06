@@ -1,6 +1,19 @@
-
+// const Allproduct = require('./Allproduct') 
+import { useEffect, useState } from 'react';
+import  Allproduct  from './Allproduct';
+import { HeroData } from '../api/heroapi';
 
 const Index = () => {
+  const [data, setData]=useState([])
+
+    useEffect(()=>{
+        const fetchData = async()=>{
+            const result = await HeroData();
+            console.log("your data is ",result)
+            setData(result.hero || [])
+        }
+        fetchData();
+    },[])
   
   return (
     <div>
@@ -8,31 +21,36 @@ const Index = () => {
   {/* this is a body section */}
   <section className="slider_section position-relative">
     <div className="slider_bg_box">
-      <img src="assets/images/hero.jpg" alt=""/>
+      <img src="assets/images/hero1.jpg" alt=""/>
     </div>
     <div className="slider_bg"></div>
     <div className="container">
       <div className="col-md-9 col-lg-8">
-        <div className="detail-box">
-          <h1>
-            Best Jewellery
-            <br/> Collection
-          </h1>
-          <p>
-            It is a long established fact that a reader will be distracted by the readable content of a page when
-            looking at its layout. The point of using Lorem
-          </p>
-          <div>
-            <a href="/allproduct" className="slider-link text-decorastion">
-              View Jewellery
-            </a>
-          </div>
-        </div>
+        
+          {Array.isArray(data)&& data.length>0? (
+            data.map((hero,id)=>(
+              <div className="detail-box">
+              <h1 key={id}>
+               {hero.herotitle}
+              </h1>
+              <p>
+                {hero.herodescription}
+              </p>
+              <div>
+                <a href="/allproduct" className="slider-link text-decorastion">
+                  View Jewellery
+                </a>
+              </div>
+            </div>
+            ))
+          ):(<p>data</p>)}
+        
       </div>
     </div>
   </section>
 
-  <section className="shop_section layout_padding">
+     <Allproduct/>
+  {/* <section className="shop_section layout_padding">
     <div className="container">
       <div className="heading_container heading_center">
         <h2>
@@ -247,7 +265,7 @@ const Index = () => {
         </a>
       </div>
     </div>
-  </section>
+  </section> */}
 
 {/* <section className="shop_section layout_padding-t">
       <div className="container">
