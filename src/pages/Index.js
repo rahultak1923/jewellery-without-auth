@@ -591,7 +591,7 @@ const Index = () => {
           </div>
         </div>
       </div>
-      <div className="row info_main_row">
+      {/* <div className="row info_main_row">
         <div className="col-md-6 col-lg-3">
           <div className="info_links">
             <h4>
@@ -600,8 +600,8 @@ const Index = () => {
             <div className="info_links_menu">
               <a href="index.html">Home</a>
               <a href="about.html">About</a>
-              <a href="shop.html">Shop</a>
-              <a href="blog.html">Blog</a>
+              <a href="shop.html">Jewelley</a>
+              <a href="blog.html">Contact</a>
             </div>
           </div>
         </div>
@@ -663,7 +663,7 @@ const Index = () => {
             </a>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   </section>
 
