@@ -76,11 +76,19 @@ const [data, setData]= useState([])
           data.map((jewellery, id)=>(
 
           
-        <div className="col-sm-6 col-md-4 col-lg-3">
+        <div className="col-sm-6 col-md-4 col-lg-3" >
           <div className="box">
-            <a href="" className='text-decorastion'>
+            <a href="/" className='text-decorastion'>
               <div className="img-box">
-                <img src="assets/images/p1.png" alt=""/>
+              <img
+  src={
+    jewellery.image
+      ? `/${jewellery.image}`
+      : "https://media.istockphoto.com/id/1403500817/photo/the-craggies-in-the-blue-ridge-mountains.jpg"
+  }
+  alt="images"
+/>
+
               </div>
               <div className="detail-box">
                 <h6 key={id}>

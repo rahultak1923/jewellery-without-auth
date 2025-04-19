@@ -3,13 +3,36 @@ const Jewellery = require('../models/jewellery')
 
 const router = Router();
 
+const path = require('path');
+const multer = require('multer')
+
+const storage = multer.diskStorage({
+    destination: function(req,file,cb){
+        cb(null,path.join(__dirname,'../../public/images'))
+    },
+    filename: function(req,file,cb){
+        const name = Date.now()+"-"+ file.originalname;
+        cb(null, name);
+    }
+})
+
+const fileFilter = (req,file,cb)=>{
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+        cb(null, true);
+    } else {
+        cb(new Error('Only .jpeg and .png images are allowed!'), false);
+    }
+}
+
+const upload = multer({storage:storage, fileFilter: fileFilter})
+
 router.get('/', async(req,res)=>{
     const jewellery = await Jewellery.find({})
     const Json ={jewellery}
     return res.json(Json)
 })
 
-router.post('/addjewellery', async (req,res)=>{
+router.post('/addjewellery',upload.single('image'), async (req,res)=>{
     try{
         const {jewelleryname, description, price, quantity}= req.body;
         console.log(req.body)
@@ -18,6 +41,7 @@ router.post('/addjewellery', async (req,res)=>{
             description,
             price,
             quantity,
+            image:'images/'+req.file.filename
             // createdBy: req.jewellery_id,
         });
 
