@@ -1,68 +1,70 @@
 const { Router } = require("express");
-const Jewellery = require('../models/jewellery')
-
+const Jewellery = require('../models/jewellery');
 const router = Router();
-
 const path = require('path');
-const multer = require('multer')
+const multer = require('multer');
 
 const storage = multer.diskStorage({
-    destination: function(req,file,cb){
-        cb(null,path.join(__dirname,'../../public/images'))
+    destination: function(req, file, cb) {
+        cb(null, path.join(__dirname, '../../public/images'));
     },
-    filename: function(req,file,cb){
-        const name = Date.now()+"-"+ file.originalname;
+    filename: function(req, file, cb) {
+        const name = Date.now() + "-" + file.originalname;
         cb(null, name);
     }
-})
+});
 
-const fileFilter = (req,file,cb)=>{
+const fileFilter = (req, file, cb) => {
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
         cb(null, true);
     } else {
         cb(new Error('Only .jpeg and .png images are allowed!'), false);
     }
-}
+};
 
-const upload = multer({storage:storage, fileFilter: fileFilter})
+const upload = multer({ storage: storage, fileFilter: fileFilter });
 
-router.get('/', async(req,res)=>{
-    const jewellery = await Jewellery.find({})
-    const Json ={jewellery}
-    return res.json(Json)
-})
+router.get('/', async (req, res) => {
+    const jewellery = await Jewellery.find({});
+    const Json = { jewellery };
+    return res.json(Json);
+});
 
-router.post('/addjewellery',upload.single('image'), async (req,res)=>{
-    try{
-        const {jewelleryname, description, price, quantity}= req.body;
-        console.log(req.body)
+router.post('/addjewellery', upload.single('image'), async (req, res) => {
+    try {
+        const { jewelleryname, description, price, quantity } = req.body;
+        console.log("req.body:", req.body);
+        console.log("req.file:", req.file); // Debugging line
+
+        if (!req.file) {
+            return res.status(400).json({ error: "Please upload an image" });
+        }
+
         const newJewellery = await Jewellery.create({
             jewelleryname,
             description,
             price,
             quantity,
-            image:'images/'+req.file.filename
+            image: 'images/' + req.file.filename
             // createdBy: req.jewellery_id,
         });
-
-        return res.json({jewellery: newJewellery})
-    }catch(error){
-        console.error("error found",error)
-        return res.status(500).json({error:"internal error "})
+        console.log("New Jewellery:", newJewellery);
+        return res.json({ jewellery: newJewellery });
+    } catch (error) {
+        console.error("Error found", error);
+        return res.status(500).json({ error: "Internal error " });
     }
+});
 
-})
-
-router.delete("/delete/:id",async(req,res)=>{
-    try{
+router.delete("/delete/:id", async (req, res) => {
+    try {
         const jewelleryid = req.params.id;
         const deletedjewellery = await Jewellery.findByIdAndDelete(jewelleryid);
-
-        return res.json({message: "jewellery delete",jewellery:deletedjewellery});
-    }catch (error){
-        return res.status(500).json({error:"failed to delete jewellery"})
+        return res.json({ message: "jewellery delete", jewellery: deletedjewellery });
+    } catch (error) {
+        return res.status(500).json({ error: "failed to delete jewellery" });
     }
-})
+});
 
 router.put("/update/:id", async (req, res) => {
     try {
@@ -89,6 +91,5 @@ router.put("/update/:id", async (req, res) => {
         return res.status(500).json({ error: "Failed to update jewellery" });
     }
 });
-
 
 module.exports = router;
