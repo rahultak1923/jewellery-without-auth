@@ -18,10 +18,10 @@ router.get('/:id',async(req,res)=>{
 })
 
 router.post("/signin", async (req,res)=>{
-    const {fullName, email, password}= req.body;
+    const {fullname, email, password}= req.body;
     console.log(req.body)
    const newUser =  await User.create({
-        fullName,
+        fullname,
         email,
         password,
         createdBy: req.user_id,

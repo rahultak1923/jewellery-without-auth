@@ -1,6 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { CreateUser } from '../api/userapi';
 
 const Signup = () => {
+  const [fullname , setName]= useState('');
+  const [email, setEmail]=useState('');
+  const [password, setPassword]=useState('');
+
+  const handleSubmit = async(evnet)=>{
+    evnet.preventDefault();
+    const formData ={
+      fullname: fullname, email:email,password:password
+    };
+    try {
+      
+      await CreateUser(formData);
+      
+      alert('user added successfully!');
+  } catch (error) {
+      console.error('Error creating user:', error);
+      alert('Failed to add user.');
+  }
+  }
+
   return (
     <div className="content mt-8">
     <div className="container">
@@ -27,37 +48,40 @@ const Signup = () => {
               </div>
 
               {/* Form Section */}
-              <form action="#" method="post">
+              <form onSubmit={handleSubmit} action="#" method="post">
                 <div className="form-group first">
                   <label htmlFor="username">Name</label>
-                  <input type="text" className="form-control" id="username" />
+                  <input type="text" name='fullName' className="form-control" id="name" value={fullname} onChange={(event)=> setName(event.target.value)} />
                 </div>
                 <div className="form-group first">
                   <label htmlFor="username">Email</label>
-                  <input type="email" className="form-control" id="username" />
+                  <input type="email" className="form-control" id="email" name='email' value={email} onChange={(event)=> setEmail(event.target.value)}/>
                 </div>
 
                 <div className="form-group last mb-4">
                   <label htmlFor="password">Password</label>
-                  <input type="password" className="form-control" id="password" />
+                  <input type="password" className="form-control" id="password" name='password' value={password} onChange={(event)=> setPassword(event.target.value)} />
                 </div>
 
                 <div className="d-flex mb-5 align-items-center">
-                  <label className="control control--checkbox mb-0">
+                  {/* <label className="control control--checkbox mb-0">
                     <span className="caption">Remember me</span>
                     <input type="checkbox" defaultChecked />
                     <div className="control__indicator"></div>
-                  </label>
+                  </label> */}
                   <span className="ml-auto">
                     <a href="/login" className="forgot-pass">Already Account</a>
                   </span>
                 </div>
 
-                <input
+                <button className="btn btn-success btn-sm ms-auto" type="submit">
+                                    Create User
+                                </button>
+                {/* <input
                   type="submit"
                   value="Sign Up"
                   className="btn btn-block btn-primary"
-                />
+                /> */}
 
                 <span className="d-block text-left my-4 text-muted">
                   &mdash; or login with &mdash;
